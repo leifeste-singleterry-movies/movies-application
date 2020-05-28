@@ -9,6 +9,27 @@
       "title": "Star Wars: A New Hope",
       "rating": "5",
       "id": 2
+    },
+    {
+      "title": "shooter",
+      "rating": "3.9",
+      "id": 12
+    },
+    {
+      "title": "the boondock saints",
+      "rating": "10",
+      "id": 17
+    },
+
+    {
+      "title": "scary movie 2",
+      "rating": "2",
+      "id": 19
+    },
+    {
+      "title": "jumper",
+      "rating": "3.5",
+      "id": 20
     }
   ]
 }
