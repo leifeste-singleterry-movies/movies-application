@@ -20,7 +20,6 @@
       "rating": "10",
       "id": 17
     },
-
     {
       "title": "scary movie 2",
       "rating": "2",
@@ -30,6 +29,46 @@
       "title": "jumper",
       "rating": "3.5",
       "id": 20
+    },
+    {
+      "title": "the other guys",
+      "rating": "5",
+      "id": 21
+    },
+    {
+      "title": "space jam",
+      "rating": "5",
+      "id": 22
+    },
+    {
+      "title": "tombstone",
+      "rating": "5",
+      "id": 23
+    },
+    {
+      "title": "step brothers",
+      "rating": "3",
+      "id": 24
+    },
+    {
+      "title": "biodome",
+      "rating": "3",
+      "id": 25
+    },
+    {
+      "title": "big daddy",
+      "rating": "2",
+      "id": 26
+    },
+    {
+      "title": "cars",
+      "rating": "3",
+      "id": 27
+    },
+    {
+      "title": "tears of the sun",
+      "rating": "1",
+      "id": 28
     }
   ]
 }
