@@ -50,7 +50,7 @@ $.ajax('/api/movies').done(function(data) {
       $('.container').append(`<div class="movies">${title} - rating: ${rating}</div>`)
     });
   });
-
+console.log('hello')
 });
 
 
