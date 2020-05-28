@@ -6,10 +6,20 @@
     <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
+    <h2>Add New Movie</h2>
+    <form>
+        <label for="movie-title">Movie Title:</label>
+        <input type="text" id="movie-title">
+        <br>
+        <label for="movie-rating">Movie Rating:</label>
+        <input type="text" id="movie-rating">
+        <br>
+        <button>Update</button>
+    </form>
 
     <div class="container">
-        <h1>Hello There!</h1>
-        <p>To get started, edit <code>src/index.js</code>.</p>
+        <h1 id="loading">Loading...</h1>
+<!--        <p>To get started, edit <code>src/index.js</code>.</p>-->
     </div>
 
     <script src="./main.js"></script>
