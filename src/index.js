@@ -12,7 +12,6 @@ const $ = require('jquery')
 const {getMovies} = require('./api.js');
 
 getMovies().then((movies) => {
-
     // addNewMovie("Tombstone", "5", 3, movies);
     // console.log('Here are all the movies:');
     // $('#loading').text('');
@@ -44,10 +43,11 @@ function deleteData(item, url) {
 
 // === Ajax request that gets movies object ===
 $.ajax('/api/movies').done(function (data) {
+    console.log(data);
     $('#loading').text(`Here are all the movies:`);
     data.forEach(({title, rating, id}, i) => {
         // console.log(i);
-        $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">Delete</button></div>`)
+        $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">DELETE</button></div>`)
     });
     // This gets movie info from inputs and uses the function to add to movies object
     // $('button').click(function(e) {
@@ -61,55 +61,48 @@ $.ajax('/api/movies').done(function (data) {
     // });
 }).done(function (data) {
     data.forEach((movie, i) => {
-        console.log(movie, i);
+        // console.log(movie, i);
         $(`#${i}`).click(function (e) {
             e.preventDefault();
             console.log($(`.${i}`).text(), movie.id);
             $.ajax(`/api/movies/${movie.id}`, {type: "DELETE"});
-            $.ajax('/api/movies').done(function (input) {
-            $('.container').html('');
-                $('#loading').html(`<h1 id="loading">Here are all the movies:</h1>`);
-                input.forEach(({title, rating, id}, i) => {
-                    // console.log(i);
-                    $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">Delete</button></div>`)
-
-
-                })
-            });
-
+            $(`.${i}`).remove();
+            // $.ajax('/api/movies').done(function (input) {
+            //     $('#loading').html(`<h1 id="loading">Here are all the movies:</h1>`);
+            //     input.forEach(({title, rating, id}, i) => {
+            //         // console.log(i);
+            //         $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">Delete</button></div>`)
+            //     })
+            // });
             // refreshMovies(data);
         });
     });
+});
+
+// === button to add movies
+$('#update').click(function (e) {
+    e.preventDefault();
+    $.post('/api/movies', {
+        "title": $('#movie-title').val(),
+        "rating": $('#movie-rating').val()
+    }).done(function (data) {
+        $('.container').append(`<div class="${data.length - 1}">${$('#movie-title').val()} - rating: ${$('#movie-rating').val()} <button id="${data.length - 1}" data-id="${data.id}">DELETE</button></div>`);
+        $(`#${data.length - 1}`).click(function (e) {
+            $(`.${data.length - 1}`).remove();
+            console.log('testing delete button');
+        });
+        console.log($(`.${data.length - 1}`).text(), data.id);
+    })
 });
 
 function refreshMovies(input) {
     $('.container').html('')
     input.forEach(({title, rating, id}, i) => {
         // console.log(input);
-        $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">Delete</button></div>`)
+        $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">Delete</button></div>`);
     });
+    $('#loading').html(`<h1 id="loading">Here are all the movies:</h1>`);
 }
-
-// === button to update movies
-$('button').click(function (e) {
-    e.preventDefault();
-    $.post('/api/movies', {
-        "title": $('#movie-title').val(),
-        "rating": $('#movie-rating').val()
-    });
-
-    $.ajax('/api/movies').done(function (data) {
-        // console.log(data.length);
-        $('.container').append(`<div class="${data.length - 1}">${$('#movie-title').val()} - rating: ${$('#movie-rating').val()} <button id="${data.length - 1}">Delete</button></div>`)
-    }).done(function (data) {
-        $(`#${data.length - 1}`).click(function (e) {
-            e.preventDefault();
-            console.log($(`.${data.length - 1}`).text());
-        });
-    });
-});
-
-// console.log(data);
 
 
 
