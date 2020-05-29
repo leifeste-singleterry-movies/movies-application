@@ -30,7 +30,7 @@ function addNewMovie(title, rating, obj) {
     let newMovie = {
         "title": title,
         "rating": rating
-    }
+    };
     obj.push(newMovie);
 }
 
@@ -47,7 +47,7 @@ $.ajax('/api/movies').done(function (data) {
     $('#loading').text(`Here are all the movies:`);
     data.forEach(({title, rating, id}, i) => {
         // console.log(i);
-        $('.container').append(`<div class="${i}">${title} - rating: ${rating} <button id="${i}" data-id="${id}">DELETE</button></div>`)
+        $('.container').append(`<div class="${i}">${title} - rating: ${rating}<button id="${i}${i}">EDIT</button> <button id="${i}" data-id="${id}">DELETE</button></div>`)
     });
     // This gets movie info from inputs and uses the function to add to movies object
     // $('button').click(function(e) {
@@ -60,12 +60,30 @@ $.ajax('/api/movies').done(function (data) {
     //   });
     // });
 }).done(function (data) {
-    data.forEach((movie, i) => {
-        // console.log(movie, i);
+    data.forEach(({title, rating, id}, i) => {
+        $(`#${i}${i}`).click(function (e) {
+            e.preventDefault()
+            // console.log($(`.${i}`).text(), movie.id);
+            $('#movie-title').val(`${title}`);
+            $('#movie-rating').val(`${rating}`);
+            $('#update').click(function (e) {
+                e.preventDefault();
+                $.ajax(`/api/movies/${id}`, {
+                    type: "PATCH",
+                    data: {
+                        'title': $('#movie-title').val(),
+                        'rating': $('#movie-rating').val()
+                    }
+                }).done(function () {
+                    $(`.${i}`).html(`<div>${$('#movie-title').val()} - rating: ${$('#movie-rating').val()}<button>EDIT</button> <button>DELETE</button></div>`)
+                })
+            });
+        });
+
         $(`#${i}`).click(function (e) {
             e.preventDefault();
-            console.log($(`.${i}`).text(), movie.id);
-            $.ajax(`/api/movies/${movie.id}`, {type: "DELETE"});
+            console.log($(`.${i}`).text(), id);
+            $.ajax(`/api/movies/${id}`, {type: "DELETE"});
             $(`.${i}`).remove();
             // $.ajax('/api/movies').done(function (input) {
             //     $('#loading').html(`<h1 id="loading">Here are all the movies:</h1>`);
@@ -79,21 +97,27 @@ $.ajax('/api/movies').done(function (data) {
     });
 });
 
+
 // === button to add movies
-$('#update').click(function (e) {
+$('#add').click(function (e) {
     e.preventDefault();
     $.post('/api/movies', {
         "title": $('#movie-title').val(),
         "rating": $('#movie-rating').val()
     }).done(function (data) {
-        $('.container').append(`<div class="${data.length - 1}">${$('#movie-title').val()} - rating: ${$('#movie-rating').val()} <button id="${data.length - 1}" data-id="${data.id}">DELETE</button></div>`);
+        $('.container').append(`<div class="${data.length - 1}">${$('#movie-title').val()} - rating: ${$('#movie-rating').val()} <button id="${data.length - 1}${data.length - 1}">EDIT</button><button id="${data.length - 1}" data-id="${data.id}">DELETE</button></div>`);
         $(`#${data.length - 1}`).click(function (e) {
             $(`.${data.length - 1}`).remove();
             console.log('testing delete button');
         });
         console.log($(`.${data.length - 1}`).text(), data.id);
-    })
+        $('#movie-title, #movie-rating').val('')
+
+    });
 });
+// === edit movies button
+
+
 
 function refreshMovies(input) {
     $('.container').html('')
